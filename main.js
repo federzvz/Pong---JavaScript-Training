@@ -62,8 +62,59 @@ function draw(cxt, element) {
         case "rectangle":
             cxt.fillRect(element.x, element.y, element.width, element.height);
             break;
+
+        case "circle":
+            cxt.beginPath();
+            cxt.arc(element.x, element.y, element.radius, 0, 7);
+            cxt.fill();
+            cxt.closePath();
+            break;
     }
 }
+
+document.addEventListener("keydown", function (ev) {
+    console.log(ev.keyCode);
+    if (ev.keyCode == 87) {
+        ev.preventDefault();
+        bar.up();
+
+    }
+    else if (ev.keyCode == 83) {
+        ev.preventDefault();
+        bar.down();
+    }
+    else if (ev.keyCode == 73) {
+        ev.preventDefault();
+        bar_2.up();
+    }
+    else if (ev.keyCode == 75) {
+        ev.preventDefault();
+        bar_2.down();
+    }
+    else if (ev.keyCode === 32) {
+        ev.preventDefault();
+        board.playing = !board.playing;
+
+    }
+});
+
+(function () {
+    self.Ball = function (x, y, radius, board) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.speed_y = 0;
+        this.speed_x = 3;
+        this.board = board;
+        this.direction = 1;
+        this.bounce_angle = 0;
+        this.max_bounce_angle = Math.PI / 12;
+        this.speed = 3;
+
+        board.ball = this;
+        this.kind = "circle";
+    }
+})();
 
 self.addEventListener("load",main);
 
