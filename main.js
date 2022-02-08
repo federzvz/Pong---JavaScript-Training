@@ -30,10 +30,47 @@
     }
 })();
 
+(function () {
+    self.Bar = function (x, y, width, height, board) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.board = board;
+        this.board.bars.push(this);
+        this.kind = "rectangle";
+        this.speed = 10;
+    }
+
+    self.Bar.prototype = {
+        down: function () {
+            this.y += this.speed;
+
+        },
+        up: function () {
+            this.y -= this.speed;
+        },
+        toString: function () {
+            return "x: " + this.x + "y: " + this.y;
+        }
+    }
+})();
+
+function draw(cxt, element) {
+
+    switch (element.kind) {
+        case "rectangle":
+            cxt.fillRect(element.x, element.y, element.width, element.height);
+            break;
+    }
+}
+
 self.addEventListener("load",main);
 
 function main(){
     var borad = new Board(800,400);
+    var bar = new Bar(20,100,40,100,board);
     var canvas = document.getElementById("canvas");
     var board_view = new BoardView(canvas,board);
+    board_view.draw();
 }
